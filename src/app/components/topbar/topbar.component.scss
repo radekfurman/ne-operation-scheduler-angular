@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 50px;
+    padding-left: 20px;
+    z-index: 200;
+    grid-area: header;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+    .topbar {
+        * {
+            margin: 0;
+        }
+    }
+}
