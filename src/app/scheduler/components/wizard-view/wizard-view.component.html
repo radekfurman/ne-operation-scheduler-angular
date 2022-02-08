@@ -1,1 +1,20 @@
-<p>wizard-view works!</p>
+<div class="wizard-view-container" [ngSwitch]="wizardService.wizardStep | async">
+    <div *ngSwitchCase="wizardStepType.NetworkElement">
+        <network-element></network-element>
+    </div>
+    <div *ngSwitchCase="wizardStepType.OperationType">
+        <operation-type></operation-type>
+    </div>
+    <div *ngSwitchCase="wizardStepType.Summary">
+        <summary></summary>
+    </div>
+</div>
+<div class="wizard-button-container" *ngIf="wizardService.dataStore | async as dataStore">
+    <button mat-button color="primary" (click)="cancel()" [disabled]="isCancelButtonDisabled(dataStore)">Cancel</button>
+    <button mat-button color="primary" (click)="previousStep()"
+        [disabled]="isBackButtonDisabled(dataStore)">Back</button>
+    <button mat-button color="primary" (click)="schedule()"
+        [disabled]="isScheduleButtonDisabled(dataStore)">Schedule</button>
+    <button mat-button color="primary" (click)="nextStep()"
+        [disabled]="isNextButtonDisabled(dataStore)">Continue</button>
+</div>

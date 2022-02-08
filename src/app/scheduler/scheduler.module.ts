@@ -6,6 +6,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+
 
 import { SchedulerWizardComponent } from './components/scheduler-wizard/scheduler-wizard.component';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -16,6 +19,8 @@ import { WizardViewComponent } from './components/wizard-view/wizard-view.compon
 import { NetworkElementComponent } from './components/wizard-view/views/network-element/network-element.component';
 import { OperationTypeComponent } from './components/wizard-view/views/operation-type/operation-type.component';
 import { SummaryComponent } from './components/wizard-view/views/summary/summary.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,9 @@ import { SummaryComponent } from './components/wizard-view/views/summary/summary
     MatListModule,
     MatStepperModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatInputModule,
+    MatCheckboxModule,
     SchedulerRoutingModule
   ],
   exports: [

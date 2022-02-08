@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    height: 100%;
+
+    > :first-child {
+        height: calc(100vh - 50px);
+        grid-area: left-side;
+        z-index: 100;
+        box-shadow: 0 8px 8px 0 rgb(0 0 0 / 30%);
+    }
+    > :last-child {
+        width: 100%;
+    }
+}

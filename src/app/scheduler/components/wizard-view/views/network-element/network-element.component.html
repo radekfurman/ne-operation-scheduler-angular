@@ -1,1 +1,31 @@
-<p>network-element works!</p>
+<mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+<div class="table-container" *ngIf="wizardService.networkElements| async as selectedNEs">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="ipAddress">
+            <th mat-header-cell *matHeaderCellDef> IP Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.ipAddress}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="distname">
+            <th mat-header-cell *matHeaderCellDef> DN </th>
+            <td mat-cell *matCellDef="let element"> {{element.distName}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowToggle(row, selectedNEs)"
+            [class.row-selected]="selectedNEs.includes(row)"></tr>
+    </table>
+</div>
