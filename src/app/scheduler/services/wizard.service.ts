@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NetworkElement } from '../mocks/networkElementsData';
 import { WizardStepType } from '../model/stepsConfig';
 import { OperationType, Status, WizardStore } from '../model/wizardStore';
@@ -17,6 +17,8 @@ export class WizardService {
   };
   private _wizardStep = new BehaviorSubject<WizardStepType>(WizardStepType.NetworkElement);
   private _selectedNetworkElements = new BehaviorSubject<NetworkElement[]>([])
+  private _selectedOperation = new BehaviorSubject<OperationType | undefined>(undefined)
+
   private _dataStore = new BehaviorSubject<WizardStore>(this.wizardData)
 
   constructor(private notificationsService: NotificationsService) { }
@@ -54,6 +56,16 @@ export class WizardService {
   setNetworkElements(nes: NetworkElement[]) {
     this.wizardData.selectedNetworkElements = nes;
     this._selectedNetworkElements.next(this.wizardData.selectedNetworkElements);
+    this._dataStore.next(this.wizardData);
+  }
+
+  get selectedOperation() {
+    return this._selectedOperation.asObservable();
+  }
+
+  setSelectedOperation(operation: OperationType) {
+    this.wizardData.selectedOperation = operation;
+    this._selectedOperation.next(this.wizardData.selectedOperation);
     this._dataStore.next(this.wizardData);
   }
 

@@ -1,1 +1,9 @@
-<p>operation-type works!</p>
+<mat-button-toggle-group class="operation-buttons-container" [(ngModel)]="selectedOperation">
+    <mat-button-toggle class="operation-button" *ngFor="let operation of operationsData" [value]="operation.type"
+        (change)="onOperationsChange($event)">
+        <div class="operation-button-content">
+            <h1>{{operation.title}}</h1>
+            <p>{{operation.description}}</p>
+        </div>
+    </mat-button-toggle>
+</mat-button-toggle-group>
