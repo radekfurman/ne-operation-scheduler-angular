@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NetworkElement } from '../mocks/networkElementsData';
@@ -6,7 +7,7 @@ import { OperationType, Status, WizardStore } from '../model/wizardStore';
 import { NotificationsService } from './notifications.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WizardService {
   private wizardData: WizardStore = {
@@ -21,7 +22,7 @@ export class WizardService {
 
   private _dataStore = new BehaviorSubject<WizardStore>(this.wizardData)
 
-  constructor(private notificationsService: NotificationsService) { }
+  constructor(private notificationsService: NotificationsService, private http: HttpClient) { }
 
 
   get dataStore() {
@@ -79,10 +80,11 @@ export class WizardService {
     this._wizardStep.next(this.wizardData.wizardStep);
     this._selectedNetworkElements.next(this.wizardData.selectedNetworkElements);
     this._dataStore.next(this.wizardData);
+    this._selectedOperation.next(undefined);
     this.notificationsService.notifyWizardReset()
   }
 
-  schedule() {
-
+  schedule(networkData: { networkElements: NetworkElement[], operation: OperationType | undefined }) {
+    return this.http.post<{ name: string }>('https://ne-operation-scheduler-4dc55-default-rtdb.firebaseio.com/networkElements.json', networkData)
   }
 }

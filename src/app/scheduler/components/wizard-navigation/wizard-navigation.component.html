@@ -1,17 +1,11 @@
-<mat-stepper orientation="vertical" [linear]="true" [selectedIndex]="wizardService.wizardStep | async"
-    (selectionChange)="stepClick($event)" #stepper>
-    <mat-step *ngFor="let stepDefinition of stepsDefinitions | keyvalue" label={{stepDefinition.value.label}}
-        stepLabel="fdsa">
+<mat-stepper orientation="vertical"
+             [linear]="true"
+             [selectedIndex]="wizardService.wizardStep | async"
+             (selectionChange)="stepClick($event)"
+             #stepper>
+    <mat-step *ngFor="let stepDefinition of stepsDefinitions | keyvalue"
+              label={{stepDefinition.value.label}}
+              stepLabel="fdsa">
         <mat-label>{{stepDefinition.value.description}}</mat-label>
     </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
-    </mat-step>
 </mat-stepper>
-
-<div>{{wizardService.wizardStep | async }}</div>

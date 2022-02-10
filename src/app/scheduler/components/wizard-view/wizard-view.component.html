@@ -1,4 +1,5 @@
-<div class="wizard-view-container" [ngSwitch]="wizardService.wizardStep | async">
+<div class="wizard-view-container"
+     [ngSwitch]="wizardService.wizardStep | async">
     <div *ngSwitchCase="wizardStepType.NetworkElement">
         <network-element></network-element>
     </div>
@@ -7,14 +8,30 @@
     </div>
     <div *ngSwitchCase="wizardStepType.Summary">
         <summary></summary>
+        <mat-spinner *ngIf="isPosting"></mat-spinner>
     </div>
 </div>
-<div class="wizard-button-container" *ngIf="wizardService.dataStore | async as dataStore">
-    <button mat-button color="primary" (click)="cancel()" [disabled]="isCancelButtonDisabled(dataStore)">Cancel</button>
-    <button mat-button color="primary" (click)="previousStep()"
-        [disabled]="isBackButtonDisabled(dataStore)">Back</button>
-    <button mat-button color="primary" (click)="schedule()"
-        [disabled]="isScheduleButtonDisabled(dataStore)">Schedule</button>
-    <button mat-button color="primary" (click)="nextStep()"
-        [disabled]="isNextButtonDisabled(dataStore)">Continue</button>
+<div class="wizard-button-container"
+     *ngIf="wizardService.dataStore | async as dataStore">
+    <button mat-button
+            color="primary"
+            (click)="cancel()"
+            [disabled]="isCancelButtonDisabled(dataStore)">Cancel</button>
+    <button mat-button
+            color="primary"
+            (click)="previousStep()"
+            [disabled]="isBackButtonDisabled(dataStore)">Back</button>
+    <button *ngIf="isScheduleButtonVisible(dataStore); else nextButton"
+            mat-button
+            color="primary"
+            (click)="schedule(dataStore.selectedNetworkElements, dataStore.selectedOperation)"
+            [disabled]="isScheduleButtonDisabled(dataStore)">Schedule</button>
+
+    <ng-template #nextButton>
+        <button mat-button
+                color="primary"
+                (click)="nextStep()"
+                [disabled]="isNextButtonDisabled(dataStore)">Continue
+        </button>
+    </ng-template>
 </div>

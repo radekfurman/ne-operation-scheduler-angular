@@ -9,6 +9,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -24,6 +27,9 @@ import { SummaryComponent } from './components/wizard-view/views/summary/summary
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { NetworkElementsSummaryComponent } from './components/wizard-view/components/network-elements-summary/network-elements-summary.component';
+import { OperationToTextPipe } from './pipes/operation-to-text.pipe';
+import { ScheduleFinishedDialogComponent } from './components/wizard-view/components/schedule-error-dialog/schedule-finished-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,10 @@ import { FormsModule } from '@angular/forms';
     WizardViewComponent,
     NetworkElementComponent,
     OperationTypeComponent,
-    SummaryComponent
+    SummaryComponent,
+    NetworkElementsSummaryComponent,
+    OperationToTextPipe,
+    ScheduleFinishedDialogComponent
   ],
   imports: [
     CommonModule,
@@ -48,8 +57,10 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
     FormsModule,
-    SchedulerRoutingModule
+    SchedulerRoutingModule,
   ],
   exports: [
   ],

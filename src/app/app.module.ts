@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
     AppRoutingModule,
     BrowserAnimationsModule,
     SchedulerModule,
-    MatButtonModule
+    MatButtonModule,
+    HttpClientModule
+
   ],
   exports: [
     MatButtonModule

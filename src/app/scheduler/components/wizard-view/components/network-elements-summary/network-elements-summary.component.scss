@@ -1,0 +1,12 @@
+.table-container {
+    height: 90%;
+    overflow: auto;
+
+    table {
+        width: 100%;
+
+        tr.mat-row {
+            background-color: #edf2f5;
+        }
+    }
+}

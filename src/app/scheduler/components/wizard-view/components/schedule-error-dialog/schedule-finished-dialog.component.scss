@@ -1,0 +1,9 @@
+.dialog {
+    background-color: #f1fee9;
+    margin: -24px;
+    padding: 24px;
+
+    &.dialog-failed {
+        background-color: #ffe1e2;
+    }
+}

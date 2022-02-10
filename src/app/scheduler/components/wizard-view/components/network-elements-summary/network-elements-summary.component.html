@@ -1,14 +1,6 @@
-<mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput
-           (keyup)="applyFilter($event)"
-           placeholder="Ex. ium"
-           #input>
-</mat-form-field>
-<div class="table-container"
-     *ngIf="wizardService.networkElements| async as selectedNEs">
+<div class="table-container">
     <table mat-table
-           [dataSource]="dataSource"
+           [dataSource]="wizardService.networkElements"
            class="mat-elevation-z8">
 
         <ng-container matColumnDef="ipAddress">
@@ -32,11 +24,9 @@
                 *matCellDef="let element"> {{element.distName}} </td>
         </ng-container>
 
+
         <tr mat-header-row
             *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row
-            *matRowDef="let row; columns: displayedColumns;"
-            (click)="onRowToggle(row, selectedNEs)"
-            [class.row-selected]="selectedNEs.includes(row)"></tr>
+            *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-</div>

@@ -1,20 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { navigationConfiguration } from '../../model/navigationPreconditions';
 import { WizardStepType } from '../../model/stepsConfig';
-import { WizardStore } from '../../model/wizardStore';
+import { NetworkElement, OperationType, ScheduleState, Status, WizardStore } from '../../model/wizardStore';
+import { NotificationsService } from '../../services/notifications.service';
 import { WizardService } from '../../services/wizard.service';
+import { ScheduleFinishedDialogComponent } from './components/schedule-error-dialog/schedule-finished-dialog.component';
 
 @Component({
   selector: 'wizard-view',
   templateUrl: './wizard-view.component.html',
   styleUrls: ['./wizard-view.component.scss']
 })
-export class WizardViewComponent implements OnInit {
+export class WizardViewComponent implements OnInit, OnDestroy {
   public wizardStepType = WizardStepType;
+  isPosting = false;
+  error: string | null = null;
+  private errSub!: Subscription
 
-  constructor(public wizardService: WizardService) { }
+  constructor(public wizardService: WizardService, private notificationService: NotificationsService, private http: HttpClient, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.errSub = this.notificationService.notificationScheduleFinished.subscribe((scheduleState: ScheduleState) => {
+      this.openDialog(scheduleState)
+
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.errSub.unsubscribe();
   }
 
   nextStep = () => {
@@ -29,8 +45,19 @@ export class WizardViewComponent implements OnInit {
     this.wizardService.restore();
   }
 
-  schedule = () => {
-    this.wizardService.schedule();
+  schedule = (networkElements: NetworkElement[], operation: OperationType | undefined) => {
+    this.isPosting = true;
+    this.wizardService.schedule({ networkElements, operation }).subscribe((res) => {
+      console.log(res);
+      this.isPosting = false;
+      this.notificationService.notifyScheduleFinished({ networkElements: networkElements, error: undefined, status: Status.success });
+
+    }, error => {
+      console.log(error.message)
+      this.isPosting = false;
+      this.notificationService.notifyScheduleFinished({ networkElements: networkElements, error: error.message, status: Status.fail });
+    });
+
   }
 
   isCancelButtonDisabled = (state: WizardStore): boolean => {
@@ -52,4 +79,8 @@ export class WizardViewComponent implements OnInit {
   isScheduleButtonDisabled = (state: WizardStore): boolean => {
     return !navigationConfiguration[state.wizardStep].canSchedule(state);
   };
+
+  openDialog(scheduleState: ScheduleState) {
+    const dialogRef = this.dialog.open(ScheduleFinishedDialogComponent, { data: scheduleState });
+  }
 }
